@@ -8,7 +8,7 @@ const sponsors = {
     eu: ['SRL', 'PLO', 'J&K'],
     rus: ['RusAuto', 'SBO']
 };
-const {cash, eu, rus} = sponsors;
+const {cash = 0, eu = '', rus = ''} = sponsors;
 const calcCash = () => cash.reduce((a, b) => a + b);
 
 const makeBusiness = ({
