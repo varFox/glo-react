@@ -1,6 +1,7 @@
 import React from 'react';
 
 const PostListItem = () => {
+  const date = new Date();
   return (
     <li className='app-list-item d-flex justify-content-between'>
       <span className='app-list-item-label'>
@@ -17,7 +18,14 @@ const PostListItem = () => {
           className='btn-trash btn-sm'>
           <i className='fa fa-trash-o'></i>
         </button>
-        <i className='fa fa-heart'></i>
+        <button
+          type='button' 
+          className='btn-heart btn-sm'
+          >
+          <i className='fa fa-heart-o'></i>
+        </button>
+        
+        <p className='text-secondary'>{date.getDate()}-{date.getMonth() + 1}-{date.getFullYear()}</p>
       </div>
 
     </li>
