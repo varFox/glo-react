@@ -52,3 +52,10 @@
 .app-list-item.important .btn-star {
     color: #aeaeae;
 }
+.app-list-item .date-text {
+  margin-bottom: 0;
+  margin-right: 10px;
+}
+.app-list-item .btn-edit {
+  width: 145px;
+}

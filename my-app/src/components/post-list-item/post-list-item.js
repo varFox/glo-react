@@ -1,16 +1,50 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const PostListItem = () => {
-  const date = new Date();
-  return (
-    <li className='app-list-item d-flex justify-content-between'>
-      <span className='app-list-item-label'>
-        Hi
-      </span>
-      <div className='d-flex justify-content-center align-items-center'>
+export default class PostListItem extends Component {
+  state = {
+    important: false,
+    like: false
+  };
+  onImportant = () => {
+    this.setState(({important}) => ({
+      important: !important
+    }))
+  }
+  onLike = () => {
+    this.setState(({like}) => ({
+      like: !like
+    }))
+  }
+  onEdit = () => {
+    
+  }
+  render() {
+    const {label} = this.props;
+    const {important, like} = this.state;
+    let classNames = 'app-list-item d-flex justify-content-between';
+    if (important) classNames += ' important';
+    if (like) classNames += ' like';
+  
+    const date = new Date();
+    
+    return (
+      <div className={classNames}>
+        <span 
+        className='app-list-item-label'
+        onClick={this.onLike}>
+          {label}
+        </span>
+        <div className='d-flex justify-content-center align-items-center'>
+        <p className='date-text text-secondary'>{date.getDate()}-{date.getMonth() + 1}-{date.getFullYear()}</p>
+        <button
+          type='button' 
+          className='btn btn-link btn-edit'>
+            Редактировать
+        </button> 
         <button 
           type='button' 
-          className='btn-star btn-sm'>
+          className='btn-star btn-sm'
+          onClick={this.onImportant}>
           <i className='fa fa-star'></i>
         </button>
         <button 
@@ -18,18 +52,14 @@ const PostListItem = () => {
           className='btn-trash btn-sm'>
           <i className='fa fa-trash-o'></i>
         </button>
-        <button
-          type='button' 
-          className='btn-heart btn-sm'
-          >
-          <i className='fa fa-heart-o'></i>
-        </button>
-        
-        <p className='text-secondary'>{date.getDate()}-{date.getMonth() + 1}-{date.getFullYear()}</p>
+
+        <i className='fa fa-heart'></i>
+          
+          
+          
+        </div>
+  
       </div>
-
-    </li>
-  )
+    )
+  }
 }
-
-export default PostListItem;
