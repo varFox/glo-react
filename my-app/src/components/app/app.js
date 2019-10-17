@@ -11,6 +11,10 @@ const AppBlock = styled.div`
   margin: 0 auto;
   max-width: 800px;
 `
+const SearchPanelDiv = styled.div`
+  margin: 1rem 0;
+  display: flex;
+`
 
 export default class App extends Component {
   state = {
@@ -49,17 +53,18 @@ export default class App extends Component {
         }
       }
     });
-    
   }
 
+
   render() {
+    
     return (
       <AppBlock>
         <AppHeader />
-        <div className='search-panel d-flex'>
+        <SearchPanelDiv>
           <SearchPanel/>
           <PostStatusFilter/>
-        </div>
+        </SearchPanelDiv>
         <PostList 
           posts={this.state.data}
           onDelete={this.deleteItem}
