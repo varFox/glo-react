@@ -25,7 +25,8 @@ export default class App extends Component {
       {label: 'That is so good', important: false, id: 'asd'},
       {label: 'I need a break...', important: false, id: 'wewqe'}
     ]
-  };
+  }
+  maxId = 4;
 
   deleteItem = (id) => {
     this.setState(({data}) => { 
@@ -38,6 +39,18 @@ export default class App extends Component {
   }
 
   addItem = (body) => {
+    const newItem = {
+      label: body,
+      important: false,
+      id: (new Date()*6).toString(16)
+    }
+    this.setState(({data}) => {
+      const newArr = [...data, newItem];
+      console.log(newArr);
+      return {
+        data: newArr
+      }
+    })
     
   }
 

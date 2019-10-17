@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
+import ModalDeleteItem from '../modal-delete-item/';
 
 export default class PostListItem extends Component {
   state = {
     important: false,
     like: false,
-    edit: false
+    edit: false,
+    showModal: false
   };
   onImportant = () => {
     this.setState(({important}) => ({
@@ -21,12 +23,17 @@ export default class PostListItem extends Component {
       edit: !edit
     }))    
   }
+  handleModal = () => {
+    this.setState(({showModal}) => ({
+      showModal: !showModal
+    }));
+  }
   
 
   render() {
     
     const {label, onDelete, editItem} = this.props;
-    const {important, like, edit} = this.state;
+    const {important, like, edit, showModal} = this.state;
     let classNames = 'app-list-item d-flex justify-content-between';
     if (important) classNames += ' important';
     if (like) classNames += ' like';
@@ -40,7 +47,6 @@ export default class PostListItem extends Component {
     const onValue = (event) => {
       text = event.target.value;
     }
-
     if (edit) {
       msgBlock = <input 
                   defaultValue={label}
@@ -79,14 +85,18 @@ export default class PostListItem extends Component {
           onClick={this.onImportant}>
           <i className='fa fa-star'></i>
         </button>
+        
         <button 
           type='button' 
           className='btn-trash btn-sm'
-          onClick={onDelete}>
+          onClick={this.handleModal}>
           <i className='fa fa-trash-o'></i>
         </button>
         <i className='fa fa-heart'></i>
         </div>
+        {showModal && <ModalDeleteItem  
+                      handleModal={() => this.handleModal()}
+                      onDelete={() => onDelete()}/> }
       </div>
     )
   }
