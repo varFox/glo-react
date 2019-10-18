@@ -12,7 +12,7 @@ const AppList = styled(ListGroup)`
   }
 `
 
-const PostList = ({posts, onDelete, editItem}) => {
+const PostList = ({posts, onDelete, editItem, onToggle}) => {
   const elements = posts.filter(name => typeof name == 'object').map((item => {
     const {id, ...itemProps} = item;
     if(id) {
@@ -21,7 +21,8 @@ const PostList = ({posts, onDelete, editItem}) => {
           <PostListItem 
             {...itemProps} 
             onDelete={() => onDelete(id)}
-            editItem={(label) => editItem(id, label)}/>
+            editItem={(label) => editItem(id, label)}
+            onToggle={(type) => onToggle(id, type)}/>
         </ListGroupItem>
       )
     }

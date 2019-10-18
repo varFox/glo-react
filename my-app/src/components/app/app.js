@@ -19,12 +19,12 @@ const SearchPanelDiv = styled.div`
 export default class App extends Component {
   state = {
     data: [
-      5,
-      [4],
-      {label: 'Going to learn React', important: true, id: 'ergdffv'},
-      {label: 'That is so good', important: false, id: 'asd'},
-      {label: 'I need a break...', important: false, id: 'wewqe'}
-    ]
+      {label: 'Going to learn React', important: false, like: false, id: 'ergdffv'},
+      {label: 'That is so good', important: false, like: false, id: 'asd'},
+      {label: 'I need a break...', important: false, like: false, id: 'wewqe'}
+    ],
+    term: '',
+    filter: 'all'
   }
   maxId = 4;
 
@@ -46,7 +46,6 @@ export default class App extends Component {
     }
     this.setState(({data}) => {
       const newArr = [...data, newItem];
-      console.log(newArr);
       return {
         data: newArr
       }
@@ -67,21 +66,65 @@ export default class App extends Component {
       }
     });
   }
+  onToggle = (id, type) => {
+    this.setState(({data}) => {
+      const index = data.findIndex(elem => elem.id === id);
+      const old = data[index];  
+      const newItem = {...old, [type]: !old[type]};
+      const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+      return {
+        data: newArr
+      }
+    })
+  }
 
+  searchPost = (items, term) => {
+    if (term.length === 0) {
+      return items
+    }
+    return items.filter(item => {
+      return item.label.toUpperCase().indexOf(term.toUpperCase()) > -1
+    });
+  }
+
+  filterPost = (items, filter) => {
+    if (filter === 'like') {
+      return items.filter(item => item.like)
+    } else {
+      return items
+    }
+  }
+
+  onUpdateSearch = (term) => {
+    this.setState({term});
+  }
+
+  onFilterSelect = (filter) => {
+    this.setState({filter});
+  }
 
   render() {
-    
+    const {data, term, filter} = this.state;
+    const liked = data.filter(item => item.like).length;
+    const allPosts = data.length;
+    const visiblePosts = this.filterPost(this.searchPost(data, term), filter);
     return (
       <AppBlock>
-        <AppHeader />
+        <AppHeader 
+          liked={liked}
+          allPosts={allPosts}/>
         <SearchPanelDiv>
-          <SearchPanel/>
-          <PostStatusFilter/>
+          <SearchPanel
+            onUpdateSearch={this.onUpdateSearch}/>
+          <PostStatusFilter
+            filter={filter}
+            onFilterSelect={this.onFilterSelect}/>
         </SearchPanelDiv>
         <PostList 
-          posts={this.state.data}
+          posts={visiblePosts}
           onDelete={this.deleteItem}
           editItem={this.editItem}
+          onToggle={this.onToggle}
         />
         <PostAddForm
           onAdd={this.addItem}/>

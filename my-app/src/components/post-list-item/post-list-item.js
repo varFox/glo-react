@@ -3,21 +3,9 @@ import ModalDeleteItem from '../modal-delete-item/';
 
 export default class PostListItem extends Component {
   state = {
-    important: false,
-    like: false,
     edit: false,
     showModal: false
   };
-  onImportant = () => {
-    this.setState(({important}) => ({
-      important: !important
-    }))
-  }
-  onLike = () => {
-    this.setState(({like}) => ({
-      like: !like
-    }))
-  }
   onEdit = () => {
     this.setState(({edit}) => ({
       edit: !edit
@@ -32,8 +20,8 @@ export default class PostListItem extends Component {
 
   render() {
     
-    const {label, onDelete, editItem} = this.props;
-    const {important, like, edit, showModal} = this.state;
+    const {label, onDelete, editItem, onToggle, important, like} = this.props;
+    const {edit, showModal} = this.state;
     let classNames = 'app-list-item d-flex justify-content-between';
     if (important) classNames += ' important';
     if (like) classNames += ' like';
@@ -61,7 +49,7 @@ export default class PostListItem extends Component {
     } else {
       msgBlock = <span 
                   className='app-list-item-label'
-                  onClick={this.onLike}>
+                  onClick={() => onToggle('like')}>
                     {label}
                  </span>;
       btn = <button
@@ -82,7 +70,7 @@ export default class PostListItem extends Component {
         <button 
           type='button' 
           className='btn-star btn-sm'
-          onClick={this.onImportant}>
+          onClick={() => onToggle('important')}>
           <i className='fa fa-star'></i>
         </button>
         

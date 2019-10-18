@@ -16,11 +16,15 @@ const Header = styled.div`
 
 `
 
-const AppHeader = () => {
+const AppHeader = ({liked, allPosts}) => {
+  const text = () => {
+    const n = allPosts % 100, m = n % 10;
+    return (n > 10 && n < 20) ? 'записей' : (m > 1 && m < 5) ? 'записи' : (m == 1) ? 'запись' : 'записей';
+  }
   return (
     <Header>
       <h1>Lyubov Kolegova</h1>
-      <h2>5 записей, из них понравилось 0</h2>
+      <h2>{allPosts} {text()}, из них понравилось {liked}</h2>
     </Header>
   )
 }
